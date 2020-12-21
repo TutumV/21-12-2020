@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    volumes:
+      - $HOME/userspgdata:/var/lib/postgresql/data
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"

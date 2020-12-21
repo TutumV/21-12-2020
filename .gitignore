@@ -1,0 +1,9 @@
+# Macos
+.DS_Store
+# IDEA
+.idea/
+.vscode
+# Python
+__pycache__
+venv
+.venv
