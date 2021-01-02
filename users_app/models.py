@@ -21,7 +21,6 @@ class User:
         self.id = id
         self.email = email
         self.password = password
-        super().__init__()
 
     @classmethod
     async def create(cls, email: str,
@@ -61,10 +60,6 @@ class User:
 
 
 class Token:
-    def __init__(self, user: str, key: str):
-        self.user = user
-        self.key = key
-        super().__init__()
 
     @classmethod
     async def create(cls, user: User) -> str:
