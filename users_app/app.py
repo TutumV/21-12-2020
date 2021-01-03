@@ -7,7 +7,7 @@ from middleware import auth_middleware
 from models import migrate
 from urls import init_routes
 from database import Database
-from settings import init_config
+from settings import Config
 
 
 log = logging.getLogger()
@@ -19,11 +19,11 @@ log.setLevel(logging.INFO)
 
 
 async def init_database(app: web.Application) -> None:
-    user = app['config']['DB_USER']
-    password = app['config']['DB_PASSWORD']
-    host = app['config']['DB_HOST']
-    port = app['config']['DB_PORT']
-    db = app['config']['DATABASE']
+    user = app['config'].DB_USER
+    password = app['config'].DB_PASSWORD
+    host = app['config'].DB_HOST
+    port = app['config'].DB_PORT
+    db = app['config'].DATABASE
     dsn = f"postgres://{user}:{password}@{host}:{port}/{db}"
     await Database.connect(dsn)
     log.info(f'start database pool with dsn {dsn}')
@@ -41,7 +41,8 @@ def setup_middleware(app: web.Application) -> None:
 def init_app() -> web.Application:
     app = web.Application(handler_args={"access_log_class": AccessLogger})
 
-    app['config'] = init_config()
+    app['config'] = Config
+    print(app['config'].HOST)
     init_routes(app)
     setup_middleware(app)
     app.on_startup.extend([init_database, ])

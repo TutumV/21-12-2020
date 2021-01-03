@@ -5,7 +5,7 @@ import jwt
 
 from database import Database
 from settings import MIGRATIONS_DIR
-from settings import init_config
+from settings import Config
 
 
 async def migrate() -> None:
@@ -44,8 +44,7 @@ class User:
     @classmethod
     async def hash_password(cls, password: str) -> str:
         return bcrypt.hashpw(password.encode('utf-8'),
-                             init_config().get('SALT')
-                             .encode('utf-8')).decode('utf-8')
+                             Config.SALT.encode('utf-8')).decode('utf-8')
 
     @classmethod
     async def get(cls, email: str, password: str):
@@ -67,4 +66,4 @@ class Token:
             'id': user.id,
             'email': user.email,
             'time': datetime.now().timestamp()
-        }, init_config().get('JWT_SECRET_KEY')).decode('utf-8')
+        }, Config.JWT_SECRET_KEY).decode('utf-8')
